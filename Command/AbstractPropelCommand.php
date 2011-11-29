@@ -204,21 +204,24 @@ abstract class AbstractPropelCommand extends ContainerAwareCommand
                     $logicalName = $this->transformToLogicalName($schema, $bundle);
                     $finalSchema = new \SplFileInfo($this->getFileLocator()->locate($logicalName));
 
-                    $finalSchemas[(string)$finalSchema] = $finalSchema;
+                    $finalSchemas[(string)$finalSchema] = array(
+                        'bundlename' => $bundle->getName(),
+                        'schema' => $finalSchema
+                    );
                 }
             }
         }
         foreach ($finalSchemas as $finalSchema) {
 
-            $tempSchema = $bundle->getName().'-'.$finalSchema->getBaseName();
+            $tempSchema = $finalSchema['bundlename'].'-'.$finalSchema['schema']->getBaseName();
             $this->tempSchemas[$tempSchema] = array(
-                'bundle'    => $bundle->getName(),
-                'basename'  => $finalSchema->getBaseName(),
-                'path'      => $finalSchema->getPathname(),
+                'bundle'    => $finalSchema['bundlename'],
+                'basename'  => $finalSchema['schema']->getBaseName(),
+                'path'      => $finalSchema['schema']->getPathname(),
             );
 
             $file = $cacheDir.DIRECTORY_SEPARATOR.$tempSchema;
-            $filesystem->copy((string) $finalSchema, $file, true);
+            $filesystem->copy((string) $finalSchema['schema'], $file, true);
 
 
             // the package needs to be set absolute
@@ -235,7 +238,7 @@ abstract class AbstractPropelCommand extends ContainerAwareCommand
             } else {
                 throw new \RuntimeException(
                     sprintf('%s : Please define a `package` attribute or a `namespace` attribute for schema `%s`',
-                        $bundle->getName(), $finalSchema->getBaseName())
+                        $bundle->getName(), $finalSchema['schema']->getBaseName())
                 );
             }
 
