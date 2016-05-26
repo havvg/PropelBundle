@@ -1,0 +1,14 @@
+framework:
+    secret: 'R+ooqR//9bM4E+5e5E/yMaHUTxOqX4E2WVeoNrBaSIl5f1xAVdI1Cl3m3mhswwQi'
+    test: ~
+
+    router:
+        resource: '%kernel.root_dir%/fixtures/config/routing.yml'
+
+    templating:
+        engines:
+            - 'php'
+
+parameters:
+    propel.path: "%kernel.root_dir%/../../../vendor/propel/propel1"
+    propel.phing_path: "%kernel.root_dir%/../../../phing/phing/classes"

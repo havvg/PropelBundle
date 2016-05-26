@@ -1,0 +1,22 @@
+imports:
+    - { resource: empty.yml }
+
+# Propel Configuration
+propel:
+    logging: "%kernel.debug%"
+    build_properties:
+        propel.builder.pluralizer.class: "builder.util.StandardEnglishPluralizer"
+
+        propel.useDateTimeClass: true
+        propel.dateTimeClass:    "DateTime"
+
+        propel.defaultTimeStampFormat: ~
+        propel.defaultTimeFormat: ~
+        propel.defaultDateFormat: ~
+
+    dbal:
+        default_connection: "default"
+        connections:
+            default:
+                driver:               "sqlite"
+                dsn:                  "sqlite:%kernel.cache_dir%/default.db"
